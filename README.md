@@ -4,6 +4,7 @@ Novo website institucional e vitrine imobiliária da **Carmô Imobiliária** ([c
 
 [![Fundação](https://img.shields.io/badge/Fundada_em-1996-C85A17?style=for-the-badge)](http://www.carmoimobiliaria.com.br/)
 [![CRECI](https://img.shields.io/badge/CRECI-PJ_5306-23150F?style=for-the-badge)](http://www.carmoimobiliaria.com.br/)
+[![GitHub](https://img.shields.io/badge/GitHub-dev--victor16%2Fcarmo--imobiliaria-18181B?style=for-the-badge&logo=github)](https://github.com/dev-victor16/carmo-imobiliaria)
 [![Localização](https://img.shields.io/badge/Localização-Ibirité%20%2F%20MG-C85A17?style=for-the-badge)](http://www.carmoimobiliaria.com.br/)
 
 ---
@@ -75,11 +76,18 @@ Fundada em **04 de Janeiro de 1996**, a Carmô Imobiliária possui três década
 
 ## 🚀 Como Executar Localmente
 
-Para iniciar o servidor local:
+1. Clone este repositório:
+```bash
+git clone https://github.com/dev-victor16/carmo-imobiliaria.git
+cd carmo-imobiliaria
+```
 
+2. Inicie o servidor local (Node.js):
 ```bash
 node server.js
 ```
 
-Acesse em seu navegador:
-`http://localhost:5055`
+3. Acesse em seu navegador:
+```
+http://localhost:5055
+```
