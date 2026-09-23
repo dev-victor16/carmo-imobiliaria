@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="super-destaque-overlay"></div>
           <span class="property-badge badge-gold super-badge">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            Imóvel de Prestígio • Carmô
+            Destaque • Chácara em Condomínio
           </span>
           <div class="super-photo-counter">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
@@ -221,12 +221,12 @@ document.addEventListener('DOMContentLoaded', () => {
           <p class="super-destaque-desc">${superDestaque.description}</p>
           <div class="super-destaque-footer">
             <div class="super-price-block">
-              <span class="price-pre">Valor de Investimento</span>
+              <span class="price-pre">Valor de Venda</span>
               <span class="price-main">${superDestaque.price}</span>
             </div>
             <div class="super-actions-block">
               <button class="btn btn-outline open-modal-btn" data-id="${superDestaque.id}">
-                Ficha Completa
+                Ver Detalhes
               </button>
               <a href="${createWhatsAppLink(CARMO_INFO.whatsappRaw, `Olá! Vi o destaque Cód: ${superDestaque.code} (${superDestaque.title}) no site da Carmô Imobiliária e gostaria de agendar uma visita.`)}" target="_blank" rel="noopener" class="btn btn-primary btn-whatsapp-direct">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"/></svg>
@@ -332,8 +332,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 <span class="card-price-val">${p.price}</span>
               </div>
               <div class="card-buttons">
-                <button class="btn-card-details open-modal-btn" data-id="${p.id}" title="Ver ficha técnica">
-                  Ver Ficha
+                <button class="btn-card-details open-modal-btn" data-id="${p.id}" title="Ver detalhes do imóvel">
+                  Ver Detalhes
                 </button>
                 <a href="${createWhatsAppLink(CARMO_INFO.whatsappRaw, `Olá Carmô Imobiliária! Gostaria de informações sobre o imóvel Cód: ${p.code} (${p.title}).`)}" target="_blank" rel="noopener" class="btn-card-wa" title="Conversar no WhatsApp">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"/></svg>
