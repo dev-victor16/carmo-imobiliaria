@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     superDestaqueContainer.innerHTML = `
-      <div class="super-destaque-card">
+      <div class="super-destaque-card reveal-scroll">
         <div class="super-destaque-visual">
           <img src="${superDestaque.image}" alt="${superDestaque.title}" loading="lazy" class="super-destaque-img" id="superDestaqueImg">
           <div class="super-destaque-overlay"></div>
@@ -243,6 +243,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btn) {
       btn.addEventListener('click', () => openModal(superDestaque));
     }
+
+    initScrollReveals();
   }
 
   // Renderização da Grade de Imóveis
@@ -306,7 +308,7 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
 
       return `
-        <article class="property-card" data-id="${p.id}">
+        <article class="property-card reveal-scroll" data-id="${p.id}">
           <div class="card-media">
             <img src="${p.image}" alt="${p.title}" loading="lazy" class="card-img" />
             <div class="card-badges">
@@ -353,6 +355,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (prop) openModal(prop);
       });
     });
+
+    initScrollReveals();
   }
 
   // Abertura do Modal de Detalhes com Galeria
@@ -795,34 +799,81 @@ document.addEventListener('DOMContentLoaded', () => {
     link.addEventListener('click', () => toggleMobileDrawer(false));
   });
 
-  // Sticky Header Elevation
+  // Sistema de Observação e Revelação Suave no Scroll (Scroll Reveal)
+  let revealObserver = null;
+  function initScrollReveals() {
+    const revealElements = document.querySelectorAll('.reveal-scroll:not(.revealed)');
+    if (revealElements.length === 0) return;
+
+    if ('IntersectionObserver' in window) {
+      if (!revealObserver) {
+        revealObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('revealed');
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+      }
+
+      revealElements.forEach(el => revealObserver.observe(el));
+    } else {
+      revealElements.forEach(el => el.classList.add('revealed'));
+    }
+  }
+
+  // Atualização dinâmica do menu ativo durante o scroll
+  function updateActiveNavOnScroll() {
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.main-nav .nav-link');
+    if (!sections.length || !navLinks.length) return;
+
+    const scrollPos = window.scrollY + 140;
+    let currentSectionId = '';
+
+    sections.forEach(sec => {
+      const top = sec.offsetTop;
+      const height = sec.offsetHeight;
+      if (scrollPos >= top && scrollPos < top + height) {
+        currentSectionId = sec.getAttribute('id');
+      }
+    });
+
+    if (currentSectionId) {
+      navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        link.classList.toggle('active', href === `#${currentSectionId}`);
+      });
+    }
+  }
+
+  // Smooth scroll ao clicar nos links de navegação interna
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const targetId = this.getAttribute('href');
+      if (targetId === '#' || !targetId.startsWith('#')) return;
+      const targetEl = document.querySelector(targetId);
+      if (targetEl) {
+        e.preventDefault();
+        targetEl.scrollIntoView({ behavior: 'smooth' });
+        toggleMobileDrawer(false);
+      }
+    });
+  });
+
+  // Sticky Header Elevation e Monitor de Scroll
   const mainHeader = document.querySelector('.main-header');
   window.addEventListener('scroll', () => {
     if (mainHeader) {
-      if (window.scrollY > 40) {
+      if (window.scrollY > 30) {
         mainHeader.classList.add('scrolled');
       } else {
         mainHeader.classList.remove('scrolled');
       }
     }
-  });
-
-  // Observador de animações suaves ao rolar a página
-  const revealElements = document.querySelectorAll('.reveal-on-scroll');
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('revealed');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
-
-    revealElements.forEach(el => observer.observe(el));
-  } else {
-    revealElements.forEach(el => el.classList.add('revealed'));
-  }
+    updateActiveNavOnScroll();
+  }, { passive: true });
 
   // Inicializa a aplicação
   populateFilterOptions();
@@ -830,4 +881,5 @@ document.addEventListener('DOMContentLoaded', () => {
   renderSuperDestaque();
   renderProperties();
   calculateFinancing();
+  initScrollReveals();
 });
