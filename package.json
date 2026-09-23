@@ -1,0 +1,16 @@
+{
+  "name": "carmo-imobiliaria",
+  "version": "1.0.0",
+  "description": "Portal Oficial da Carmô Imobiliária",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "imobiliaria",
+    "ibirite",
+    "imoveis"
+  ],
+  "author": "Carmô Imobiliária",
+  "license": "ISC"
+}
