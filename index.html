@@ -204,123 +204,144 @@
   </section>
 
   <!-- ==========================================================================
-       SISTEMA DE BUSCA DE IMÓVEIS (MULTIFILTROS)
+       SISTEMA DE BUSCA DE IMÓVEIS (EDITORIAL & INTEGRADO)
        ========================================================================== -->
   <section class="search-section" id="busca">
     <div class="container">
-      <form class="search-box" id="searchForm" autocomplete="off">
-        <div class="search-tabs-row">
-          <div class="purpose-tabs" role="tablist">
-            <button type="button" class="purpose-tab active" data-purpose="todos" role="tab" aria-selected="true">Todos</button>
-            <button type="button" class="purpose-tab" data-purpose="venda" role="tab" aria-selected="false">Comprar</button>
-            <button type="button" class="purpose-tab" data-purpose="locacao" role="tab" aria-selected="false">Alugar</button>
+      <div class="search-integrated reveal-scroll">
+        <div class="search-integrated-header">
+          <div class="search-purpose-pills">
+            <button class="purpose-pill active" type="button" data-purpose="todos">Todos</button>
+            <button class="purpose-pill" type="button" data-purpose="venda">Comprar</button>
+            <button class="purpose-pill" type="button" data-purpose="locacao">Alugar</button>
           </div>
-
-          <div class="search-code-inline">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-            <input type="text" id="searchCode" placeholder="Buscar por Código ou Bairro..." aria-label="Código ou Bairro do imóvel" />
+          <div class="search-inventory-counter">
+            Tradição desde <strong>1996</strong> • CRECI PJ 5306 • Carteira Exclusiva
           </div>
         </div>
 
-        <div class="filters-grid">
-          <!-- Tipo de Imóvel -->
-          <div class="filter-group">
-            <label for="filterType">Tipo de Imóvel</label>
-            <select id="filterType" class="filter-control">
-              <option value="todos">Todos os tipos</option>
-              <option value="casa">Casa Individual</option>
-              <option value="casa_condominio">Casa em Condomínio</option>
-              <option value="apartamento">Apartamento</option>
-              <option value="terreno">Terreno / Lote</option>
-              <option value="comercial">Comercial / Misto</option>
-            </select>
-          </div>
+        <form class="search-form-wrap" id="searchForm" autocomplete="off">
+          <div class="search-inputs-row">
+            <div class="input-col">
+              <span class="input-label-text">Tipo de Imóvel</span>
+              <select class="select-clean" id="filterType">
+                <option value="todos">Todos os Tipos</option>
+                <option value="casa">Casa Individual</option>
+                <option value="casa_condominio">Casa em Condomínio</option>
+                <option value="apartamento">Apartamento</option>
+                <option value="terreno">Lote / Terreno</option>
+                <option value="comercial">Comercial / Ponto</option>
+              </select>
+            </div>
 
-          <!-- Cidade -->
-          <div class="filter-group">
-            <label for="filterCity">Cidade</label>
-            <select id="filterCity" class="filter-control">
-              <option value="todos">Todas as cidades</option>
-            </select>
-          </div>
+            <div class="input-col">
+              <span class="input-label-text">Bairro / Região</span>
+              <select class="select-clean" id="filterNeighborhood">
+                <option value="todos">Todos os Bairros</option>
+              </select>
+            </div>
 
-          <!-- Bairro -->
-          <div class="filter-group">
-            <label for="filterNeighborhood">Bairro</label>
-            <select id="filterNeighborhood" class="filter-control">
-              <option value="todos">Todos os bairros</option>
-            </select>
-          </div>
+            <div class="input-col">
+              <span class="input-label-text">Faixa de Valor</span>
+              <select class="select-clean" id="filterPriceRange">
+                <option value="todos">Qualquer Valor</option>
+                <option value="ate-200">Até R$ 200 mil</option>
+                <option value="200-400">R$ 200 a 400 mil</option>
+                <option value="400-700">R$ 400 a 700 mil</option>
+                <option value="acima-700">Acima de R$ 700 mil</option>
+              </select>
+            </div>
 
-          <!-- Dormitórios -->
-          <div class="filter-group">
-            <label>Dormitório(s)</label>
-            <div class="count-pill-group" data-field="bedrooms">
-              <button type="button" class="count-pill-btn" data-val="1">1+</button>
-              <button type="button" class="count-pill-btn" data-val="2">2+</button>
-              <button type="button" class="count-pill-btn" data-val="3">3+</button>
-              <button type="button" class="count-pill-btn" data-val="4">4+</button>
+            <div class="input-col">
+              <span class="input-label-text">Quartos</span>
+              <select class="select-clean" id="filterBedrooms">
+                <option value="0">Qualquer</option>
+                <option value="1">1+ Quarto</option>
+                <option value="2">2+ Quartos</option>
+                <option value="3">3+ Quartos</option>
+                <option value="4">4+ Quartos</option>
+              </select>
+            </div>
+
+            <div class="input-col input-col-btn">
+              <span class="input-label-text">&nbsp;</span>
+              <button class="btn-search-main" id="btnSubmitSearch" type="submit">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                Buscar Imóveis
+              </button>
             </div>
           </div>
 
-          <!-- Vagas -->
-          <div class="filter-group">
-            <label>Vaga(s)</label>
-            <div class="count-pill-group" data-field="parking">
-              <button type="button" class="count-pill-btn" data-val="1">1+</button>
-              <button type="button" class="count-pill-btn" data-val="2">2+</button>
-              <button type="button" class="count-pill-btn" data-val="3">3+</button>
-              <button type="button" class="count-pill-btn" data-val="4">4+</button>
+          <!-- Barra Secundária: Busca Direta por Código & Filtros Avançados -->
+          <div class="search-secondary-bar">
+            <div class="search-code-inline">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+              <span>Tem o código do anúncio?</span>
+              <input type="text" id="searchCode" placeholder="Ex: 1714, 1601..." class="input-code-compact" aria-label="Código do imóvel" />
+              <button type="button" class="btn-code-compact" id="btnCodeSearch">Localizar</button>
+            </div>
+
+            <div class="search-secondary-actions">
+              <button type="button" class="btn-toggle-advanced" id="btnToggleAdvanced" aria-expanded="false" aria-controls="advancedFilterDrawer">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><path d="M1 14h6"/><path d="M9 8h6"/><path d="M17 16h6"/></svg>
+                <span>Filtros Avançados</span>
+                <svg class="chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+
+              <button type="button" class="btn-reset-filters" id="btnResetFilters" title="Limpar todos os filtros">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                <span>Limpar</span>
+              </button>
             </div>
           </div>
 
-          <!-- Suítes -->
-          <div class="filter-group">
-            <label>Suíte(s)</label>
-            <div class="count-pill-group" data-field="suites">
-              <button type="button" class="count-pill-btn" data-val="1">1+</button>
-              <button type="button" class="count-pill-btn" data-val="2">2+</button>
-              <button type="button" class="count-pill-btn" data-val="3">3+</button>
+          <!-- Gaveta expansível de Filtros Avançados -->
+          <div class="search-advanced-drawer" id="advancedFilterDrawer" hidden>
+            <div class="advanced-grid">
+              <div class="adv-col">
+                <span class="input-label-text">Vagas de Garagem</span>
+                <select class="select-clean" id="filterParking">
+                  <option value="0">Qualquer quantidade</option>
+                  <option value="1">1+ Vaga</option>
+                  <option value="2">2+ Vagas</option>
+                  <option value="3">3+ Vagas</option>
+                  <option value="4">4+ Vagas</option>
+                </select>
+              </div>
+
+              <div class="adv-col">
+                <span class="input-label-text">Suítes</span>
+                <select class="select-clean" id="filterSuites">
+                  <option value="0">Qualquer quantidade</option>
+                  <option value="1">1+ Suíte</option>
+                  <option value="2">2+ Suítes</option>
+                  <option value="3">3+ Suítes</option>
+                </select>
+              </div>
+
+              <div class="adv-col">
+                <span class="input-label-text">Área Mínima (m²)</span>
+                <input type="number" id="filterAreaMin" class="select-clean" placeholder="Ex: 50" min="0" />
+              </div>
+
+              <div class="adv-col">
+                <span class="input-label-text">Área Máxima (m²)</span>
+                <input type="number" id="filterAreaMax" class="select-clean" placeholder="Ex: 300" min="0" />
+              </div>
+
+              <div class="adv-col adv-col-condo">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="filterCondoOnly" />
+                  <span>Condomínio Fechado / Segurança</span>
+                </label>
+              </div>
             </div>
           </div>
-
-          <!-- Faixa de Preço -->
-          <div class="filter-group">
-            <label>Faixa de Valor (R$)</label>
-            <div class="price-range-inputs">
-              <input type="text" id="filterPriceMin" class="filter-control" placeholder="Mínimo" />
-              <input type="text" id="filterPriceMax" class="filter-control" placeholder="Máximo" />
-            </div>
-          </div>
-
-          <!-- Metragem -->
-          <div class="filter-group">
-            <label>Área Total (m²)</label>
-            <div class="area-range-inputs">
-              <input type="number" id="filterAreaMin" class="filter-control" placeholder="Mín m²" />
-              <input type="number" id="filterAreaMax" class="filter-control" placeholder="Máx m²" />
-            </div>
-          </div>
-        </div>
-
-        <div class="search-actions-bar">
-          <label class="checkbox-label">
-            <input type="checkbox" id="filterCondoOnly" />
-            <span>Somente Condomínio Fechado / Segurança</span>
-          </label>
-
-          <div class="search-actions-buttons">
-            <button type="button" class="btn-reset-filters" id="btnResetFilters">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-              Limpar Filtros
-            </button>
-            <button type="submit" class="btn btn-primary" id="btnSubmitSearch">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-              Filtrar Imóveis
-            </button>
-          </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   </section>
 
@@ -347,6 +368,28 @@
         <div class="catalog-counter" id="propertiesCount">
           Carregando acervo...
         </div>
+      </div>
+
+      <!-- Barra de Filtros Rápidos por Categoria (Pills Bar) -->
+      <div class="filter-pills-bar" id="catalogPillsBar">
+        <button class="filter-pill active" type="button" data-pill="todos">
+          Todos os Imóveis <span class="pill-count" id="pillCountTodos">(13)</span>
+        </button>
+        <button class="filter-pill" type="button" data-pill="casa">
+          Casas <span class="pill-count" id="pillCountCasas">(5)</span>
+        </button>
+        <button class="filter-pill" type="button" data-pill="apartamento">
+          Apartamentos <span class="pill-count" id="pillCountAptos">(2)</span>
+        </button>
+        <button class="filter-pill" type="button" data-pill="casa_condominio">
+          Em Condomínio <span class="pill-count" id="pillCountCondo">(1)</span>
+        </button>
+        <button class="filter-pill" type="button" data-pill="terreno">
+          Lotes & Terrenos <span class="pill-count" id="pillCountTerrenos">(3)</span>
+        </button>
+        <button class="filter-pill" type="button" data-pill="comercial">
+          Comercial <span class="pill-count" id="pillCountComercial">(1)</span>
+        </button>
       </div>
 
       <div class="properties-grid" id="propertiesGrid">

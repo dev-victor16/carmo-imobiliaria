@@ -8,18 +8,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const state = {
     purpose: 'todos', // 'todos' | 'venda' | 'locacao'
     type: 'todos',
-    city: 'todos',
     neighborhood: 'todos',
-    code: '',
+    priceRange: 'todos',
     bedrooms: 0,
-    bathrooms: 0,
-    suites: 0,
     parking: 0,
-    priceMin: null,
-    priceMax: null,
+    suites: 0,
     areaMin: null,
     areaMax: null,
     condoOnly: false,
+    code: '',
     activeProperty: null,
     activePhotoIndex: 0
   };
@@ -29,16 +26,21 @@ document.addEventListener('DOMContentLoaded', () => {
   const superDestaqueContainer = document.getElementById('superDestaqueContainer');
   const propertiesCount = document.getElementById('propertiesCount');
   const searchCodeInput = document.getElementById('searchCode');
+  const btnCodeSearch = document.getElementById('btnCodeSearch');
   const filterType = document.getElementById('filterType');
-  const filterCity = document.getElementById('filterCity');
   const filterNeighborhood = document.getElementById('filterNeighborhood');
-  const filterPriceMin = document.getElementById('filterPriceMin');
-  const filterPriceMax = document.getElementById('filterPriceMax');
+  const filterPriceRange = document.getElementById('filterPriceRange');
+  const filterBedrooms = document.getElementById('filterBedrooms');
+  const filterParking = document.getElementById('filterParking');
+  const filterSuites = document.getElementById('filterSuites');
   const filterAreaMin = document.getElementById('filterAreaMin');
   const filterAreaMax = document.getElementById('filterAreaMax');
   const filterCondoOnly = document.getElementById('filterCondoOnly');
   const btnResetFilters = document.getElementById('btnResetFilters');
+  const btnToggleAdvanced = document.getElementById('btnToggleAdvanced');
+  const advancedFilterDrawer = document.getElementById('advancedFilterDrawer');
   const searchForm = document.getElementById('searchForm');
+  const catalogPillsBar = document.getElementById('catalogPillsBar');
 
   // Modal
   const propertyModal = document.getElementById('propertyModal');
@@ -77,16 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Inicialização de filtros e seletores
   function populateFilterOptions() {
-    if (filterCity) {
-      const cities = [...new Set(PROPERTIES_DATA.map(p => p.city).filter(Boolean))];
-      cities.forEach(city => {
-        const opt = document.createElement('option');
-        opt.value = city;
-        opt.textContent = city;
-        filterCity.appendChild(opt);
-      });
-    }
-
     if (filterNeighborhood) {
       const neighborhoods = [...new Set(PROPERTIES_DATA.map(p => p.neighborhood).filter(Boolean))].sort();
       neighborhoods.forEach(neigh => {
@@ -106,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return false;
       }
 
-      // Código
+      // Código ou busca textual direta
       if (state.code.trim()) {
         const query = state.code.trim().toLowerCase();
         const matchesCode = p.code.toLowerCase().includes(query);
@@ -115,19 +107,29 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!matchesCode && !matchesTitle && !matchesNeigh) return false;
       }
 
-      // Tipo
-      if (state.type !== 'todos' && p.type !== state.type) {
-        return false;
-      }
-
-      // Cidade
-      if (state.city !== 'todos' && p.city.toLowerCase() !== state.city.toLowerCase()) {
-        return false;
+      // Tipo de Imóvel
+      if (state.type !== 'todos') {
+        if (state.type === 'casa') {
+          if (p.type !== 'casa' && p.type !== 'casa_condominio') return false;
+        } else if (state.type === 'casa_condominio') {
+          if (p.type !== 'casa_condominio') return false;
+        } else if (p.type !== state.type) {
+          return false;
+        }
       }
 
       // Bairro
       if (state.neighborhood !== 'todos' && p.neighborhood.toLowerCase() !== state.neighborhood.toLowerCase()) {
         return false;
+      }
+
+      // Faixa de Preço
+      if (state.priceRange !== 'todos') {
+        const val = p.priceRaw;
+        if (state.priceRange === 'ate-200' && val > 200000) return false;
+        if (state.priceRange === '200-400' && (val < 200000 || val > 400000)) return false;
+        if (state.priceRange === '400-700' && (val < 400000 || val > 700000)) return false;
+        if (state.priceRange === 'acima-700' && val < 700000) return false;
       }
 
       // Dormitórios
@@ -140,23 +142,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return false;
       }
 
-      // Banheiros
-      if (state.bathrooms > 0 && (p.specs.bathrooms || 0) < state.bathrooms) {
-        return false;
-      }
-
       // Vagas
       if (state.parking > 0 && (p.specs.parking || 0) < state.parking) {
-        return false;
-      }
-
-      // Preço Mínimo
-      if (state.priceMin !== null && p.priceRaw < state.priceMin) {
-        return false;
-      }
-
-      // Preço Máximo
-      if (state.priceMax !== null && p.priceRaw > state.priceMax) {
         return false;
       }
 
@@ -485,95 +472,151 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Escape') closeModal();
   });
 
+  // Atualização dos contadores das pílulas de categoria do catálogo
+  function updatePillCounts() {
+    const total = PROPERTIES_DATA.length;
+    const casas = PROPERTIES_DATA.filter(p => p.type === 'casa' || p.type === 'casa_condominio').length;
+    const aptos = PROPERTIES_DATA.filter(p => p.type === 'apartamento').length;
+    const condo = PROPERTIES_DATA.filter(p => p.type === 'casa_condominio').length;
+    const terrenos = PROPERTIES_DATA.filter(p => p.type === 'terreno').length;
+    const com = PROPERTIES_DATA.filter(p => p.type === 'comercial').length;
+
+    const elTodos = document.getElementById('pillCountTodos');
+    const elCasas = document.getElementById('pillCountCasas');
+    const elAptos = document.getElementById('pillCountAptos');
+    const elCondo = document.getElementById('pillCountCondo');
+    const elTerrenos = document.getElementById('pillCountTerrenos');
+    const elCom = document.getElementById('pillCountComercial');
+
+    if (elTodos) elTodos.textContent = `(${total})`;
+    if (elCasas) elCasas.textContent = `(${casas})`;
+    if (elAptos) elAptos.textContent = `(${aptos})`;
+    if (elCondo) elCondo.textContent = `(${condo})`;
+    if (elTerrenos) elTerrenos.textContent = `(${terrenos})`;
+    if (elCom) elCom.textContent = `(${com})`;
+  }
+
   // Limpeza de todos os filtros
   function resetAllFilters() {
     state.purpose = 'todos';
     state.type = 'todos';
-    state.city = 'todos';
     state.neighborhood = 'todos';
-    state.code = '';
+    state.priceRange = 'todos';
     state.bedrooms = 0;
-    state.bathrooms = 0;
-    state.suites = 0;
     state.parking = 0;
-    state.priceMin = null;
-    state.priceMax = null;
+    state.suites = 0;
     state.areaMin = null;
     state.areaMax = null;
     state.condoOnly = false;
+    state.code = '';
 
     if (searchCodeInput) searchCodeInput.value = '';
     if (filterType) filterType.value = 'todos';
-    if (filterCity) filterCity.value = 'todos';
     if (filterNeighborhood) filterNeighborhood.value = 'todos';
-    if (filterPriceMin) filterPriceMin.value = '';
-    if (filterPriceMax) filterPriceMax.value = '';
+    if (filterPriceRange) filterPriceRange.value = 'todos';
+    if (filterBedrooms) filterBedrooms.value = '0';
+    if (filterParking) filterParking.value = '0';
+    if (filterSuites) filterSuites.value = '0';
     if (filterAreaMin) filterAreaMin.value = '';
     if (filterAreaMax) filterAreaMax.value = '';
     if (filterCondoOnly) filterCondoOnly.checked = false;
 
     // Atualiza abas de finalidade
-    document.querySelectorAll('.purpose-tab').forEach(tab => {
-      tab.classList.toggle('active', tab.getAttribute('data-purpose') === 'todos');
+    document.querySelectorAll('.purpose-pill').forEach(pill => {
+      pill.classList.toggle('active', pill.getAttribute('data-purpose') === 'todos');
     });
 
-    // Atualiza botões de contagem (quartos, vagas, etc)
-    document.querySelectorAll('.count-pill-btn').forEach(btn => {
-      btn.classList.remove('active');
-    });
+    // Atualiza pílulas do catálogo
+    if (catalogPillsBar) {
+      catalogPillsBar.querySelectorAll('.filter-pill').forEach(pill => {
+        pill.classList.toggle('active', pill.getAttribute('data-pill') === 'todos');
+      });
+    }
 
     renderProperties();
   }
 
   if (btnResetFilters) btnResetFilters.addEventListener('click', resetAllFilters);
 
-  // Manipulação de abas de finalidade
-  document.querySelectorAll('.purpose-tab').forEach(tab => {
-    tab.addEventListener('click', (e) => {
-      document.querySelectorAll('.purpose-tab').forEach(t => t.classList.remove('active'));
+  // Manipulação de abas de finalidade (Comprar / Alugar / Todos)
+  document.querySelectorAll('.purpose-pill').forEach(pill => {
+    pill.addEventListener('click', (e) => {
+      document.querySelectorAll('.purpose-pill').forEach(t => t.classList.remove('active'));
       e.currentTarget.classList.add('active');
       state.purpose = e.currentTarget.getAttribute('data-purpose');
       renderProperties();
     });
   });
 
-  // Botões de contadores de quartos, suítes, banheiros e vagas
-  document.querySelectorAll('.count-pill-group').forEach(group => {
-    const targetField = group.getAttribute('data-field');
-    group.querySelectorAll('.count-pill-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const val = parseInt(e.currentTarget.getAttribute('data-val'), 10);
-        if (state[targetField] === val) {
-          state[targetField] = 0;
-          e.currentTarget.classList.remove('active');
-        } else {
-          group.querySelectorAll('.count-pill-btn').forEach(b => b.classList.remove('active'));
-          e.currentTarget.classList.add('active');
-          state[targetField] = val;
+  // Manipulação das pílulas rápidas do catálogo
+  if (catalogPillsBar) {
+    catalogPillsBar.querySelectorAll('.filter-pill').forEach(pill => {
+      pill.addEventListener('click', (e) => {
+        catalogPillsBar.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+        e.currentTarget.classList.add('active');
+        const pillVal = e.currentTarget.getAttribute('data-pill');
+        state.type = pillVal;
+        if (filterType) {
+          filterType.value = pillVal;
         }
         renderProperties();
       });
     });
-  });
+  }
 
-  // Eventos nos inputs de filtro
+  // Toggle da Gaveta de Filtros Avançados
+  if (btnToggleAdvanced && advancedFilterDrawer) {
+    btnToggleAdvanced.addEventListener('click', () => {
+      const isHidden = advancedFilterDrawer.hasAttribute('hidden');
+      if (isHidden) {
+        advancedFilterDrawer.removeAttribute('hidden');
+        btnToggleAdvanced.classList.add('open');
+        btnToggleAdvanced.setAttribute('aria-expanded', 'true');
+      } else {
+        advancedFilterDrawer.setAttribute('hidden', '');
+        btnToggleAdvanced.classList.remove('open');
+        btnToggleAdvanced.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  // Busca direta por código
+  if (btnCodeSearch) {
+    btnCodeSearch.addEventListener('click', () => {
+      if (searchCodeInput) {
+        state.code = searchCodeInput.value.trim();
+        renderProperties();
+        const el = document.getElementById('catalogo');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  }
+
   if (searchCodeInput) {
+    searchCodeInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        state.code = searchCodeInput.value.trim();
+        renderProperties();
+        const el = document.getElementById('catalogo');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
     searchCodeInput.addEventListener('input', (e) => {
       state.code = e.target.value;
       renderProperties();
     });
   }
 
+  // Seletores Principais
   if (filterType) {
     filterType.addEventListener('change', (e) => {
       state.type = e.target.value;
-      renderProperties();
-    });
-  }
-
-  if (filterCity) {
-    filterCity.addEventListener('change', (e) => {
-      state.city = e.target.value;
+      if (catalogPillsBar) {
+        catalogPillsBar.querySelectorAll('.filter-pill').forEach(pill => {
+          pill.classList.toggle('active', pill.getAttribute('data-pill') === state.type);
+        });
+      }
       renderProperties();
     });
   }
@@ -585,18 +628,30 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  if (filterPriceMin) {
-    filterPriceMin.addEventListener('input', (e) => {
-      const val = parseFloat(e.target.value.replace(/\D/g, ''));
-      state.priceMin = isNaN(val) ? null : val;
+  if (filterPriceRange) {
+    filterPriceRange.addEventListener('change', (e) => {
+      state.priceRange = e.target.value;
       renderProperties();
     });
   }
 
-  if (filterPriceMax) {
-    filterPriceMax.addEventListener('input', (e) => {
-      const val = parseFloat(e.target.value.replace(/\D/g, ''));
-      state.priceMax = isNaN(val) ? null : val;
+  if (filterBedrooms) {
+    filterBedrooms.addEventListener('change', (e) => {
+      state.bedrooms = parseInt(e.target.value, 10) || 0;
+      renderProperties();
+    });
+  }
+
+  if (filterParking) {
+    filterParking.addEventListener('change', (e) => {
+      state.parking = parseInt(e.target.value, 10) || 0;
+      renderProperties();
+    });
+  }
+
+  if (filterSuites) {
+    filterSuites.addEventListener('change', (e) => {
+      state.suites = parseInt(e.target.value, 10) || 0;
       renderProperties();
     });
   }
@@ -771,6 +826,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Inicializa a aplicação
   populateFilterOptions();
+  updatePillCounts();
   renderSuperDestaque();
   renderProperties();
   calculateFinancing();
