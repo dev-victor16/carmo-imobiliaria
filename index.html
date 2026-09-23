@@ -132,13 +132,16 @@
   </header>
 
   <!-- ==========================================================================
-       HERO / PRIMEIRA DOBRA EDITORIAL
+       HERO / PRIMEIRA DOBRA EDITORIAL COM FUNDO RESPONSIVO
        ========================================================================== -->
   <section class="hero-section" id="inicio">
-    <div class="container">
+    <div class="hero-bg-overlay"></div>
+    <div class="container hero-container">
       <div class="hero-grid">
         <div class="hero-text-block">
-          <span class="section-label">Fundada em 04 de Janeiro de 1996 • Ibirité / MG</span>
+          <div class="hero-label-wrap">
+            <span class="section-label">Fundada em 04 de Janeiro de 1996 • Ibirité / MG</span>
+          </div>
           <h1 class="hero-headline">
             Experiência, segurança e proximidade para a sua <span class="highlight">conquista imobiliária</span>.
           </h1>
@@ -163,13 +166,36 @@
         </div>
 
         <div class="hero-visual-card">
-          <img src="https://cdn.vistahost.com.br/carmoltd/vista.imobi/fotos/1492/iJsX1bv_14926a9b081cb0358.jpg" alt="Casa em Condomínio Quintas da Jangada — Carmô Imobiliária" class="hero-visual-img" />
-          <div class="hero-visual-caption">
-            <span class="hero-visual-tag">Destaque Exclusivo Carmô</span>
-            <div class="hero-visual-title">Chácara no Condomínio Quintas da Jangada</div>
-            <div class="hero-visual-loc">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              1.200 m² • 3 Quartos (2 Suítes) • Ibirité / MG
+          <div class="hero-glass-card">
+            <div class="glass-card-header">
+              <span class="property-badge badge-gold">Assessoria Especializada</span>
+              <span class="glass-creci">Ibirité & RMBH</span>
+            </div>
+            <h3 class="glass-card-title">Encontre seu Imóvel com Garantia Carmô</h3>
+            <p class="glass-card-desc">
+              Imóveis com documentação rigorosamente checada, vistorias credenciadas e acompanhamento cartorial completo.
+            </p>
+            <div class="glass-stats-row">
+              <div class="glass-stat">
+                <strong>+30 Anos</strong>
+                <span>Tradição Sólida</span>
+              </div>
+              <div class="glass-stat">
+                <strong>PJ 5306</strong>
+                <span>CRECI Oficial</span>
+              </div>
+              <div class="glass-stat">
+                <strong>100%</strong>
+                <span>Segurança</span>
+              </div>
+            </div>
+            <div class="glass-card-actions">
+              <a href="#catalogo" class="btn btn-primary" style="flex: 1;">
+                Ver Imóveis
+              </a>
+              <a href="https://wa.me/5531998211647" target="_blank" rel="noopener" class="btn btn-outline glass-action-btn">
+                Falar Agora
+              </a>
             </div>
           </div>
         </div>
@@ -283,7 +309,7 @@
             <span>Somente Condomínio Fechado / Segurança</span>
           </label>
 
-          <div style="display: flex; gap: 1rem; align-items: center;">
+          <div class="search-actions-buttons">
             <button type="button" class="btn-reset-filters" id="btnResetFilters">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
               Limpar Filtros
