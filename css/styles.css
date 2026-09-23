@@ -400,15 +400,15 @@ h1, h2, h3, h4, h5, h6 {
    ========================================================================== */
 .hero-section {
   position: relative;
-  background-color: var(--color-secondary-dark);
+  background-color: #1a0f0a;
   background-image: 
-    linear-gradient(to right, rgba(21, 11, 7, 0.94) 0%, rgba(21, 11, 7, 0.85) 48%, rgba(21, 11, 7, 0.45) 80%, rgba(21, 11, 7, 0.3) 100%),
+    linear-gradient(to right, rgba(16, 9, 6, 0.78) 0%, rgba(16, 9, 6, 0.54) 48%, rgba(16, 9, 6, 0.20) 80%, rgba(16, 9, 6, 0.08) 100%),
     url('../assets/img/hero-bg.jpg');
   background-size: cover;
-  background-position: 70% center;
+  background-position: center right;
   background-repeat: no-repeat;
   color: #FFFFFF;
-  padding: clamp(3.5rem, 7vw, 6rem) 0 clamp(3.5rem, 6vw, 5.5rem);
+  padding: clamp(3.8rem, 7vw, 6.2rem) 0 clamp(3.2rem, 5.5vw, 5.2rem);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   overflow: hidden;
 }
@@ -423,72 +423,81 @@ h1, h2, h3, h4, h5, h6 {
   max-width: 780px;
 }
 
-.hero-location-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: clamp(0.75rem, 1.4vw, 0.8125rem);
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: var(--color-accent-gold);
-  background: rgba(198, 155, 56, 0.12);
-  border: 1px solid rgba(198, 155, 56, 0.3);
-  padding: 0.4rem 0.95rem;
-  border-radius: var(--radius-pill);
+.hero-headline {
+  font-size: clamp(2.15rem, 4.4vw, 3.4rem);
+  font-weight: 800;
+  color: #FFFFFF;
+  line-height: 1.16;
+  letter-spacing: -0.03em;
   margin-bottom: 1.35rem;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  text-shadow: 0 3px 18px rgba(0, 0, 0, 0.55);
 }
 
-.hero-location-badge svg {
+.hero-headline .headline-effect {
+  position: relative;
+  display: inline;
+  background: linear-gradient(115deg, #FFF7ED 0%, #FDBA74 25%, #F59E0B 50%, #EA580C 75%, #FDBA74 100%);
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 800;
+  text-shadow: none;
+  animation: shimmerGradient 7s ease-in-out infinite;
+  filter: drop-shadow(0 2px 14px rgba(245, 158, 11, 0.45));
+}
+
+@keyframes shimmerGradient {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.hero-subheadline {
+  font-size: clamp(1rem, 1.7vw, 1.15rem);
+  color: rgba(250, 247, 242, 0.94);
+  line-height: 1.7;
+  margin-bottom: 1.85rem;
+  max-width: 680px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Linha institucional elegante e limpa (SEM cards) */
+.hero-institutional-bar {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.65rem 0.85rem;
+  font-size: clamp(0.78rem, 1.4vw, 0.875rem);
+  color: rgba(250, 247, 242, 0.9);
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.hero-institutional-bar .inst-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-weight: 500;
+}
+
+.hero-institutional-bar .inst-item svg {
   color: var(--color-accent-gold);
   flex-shrink: 0;
 }
 
-.hero-headline {
-  font-size: clamp(2rem, 4.2vw, 3.25rem);
-  font-weight: 800;
-  color: #FFFFFF;
-  line-height: 1.15;
-  letter-spacing: -0.03em;
-  margin-bottom: 1.25rem;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.45);
+.hero-institutional-bar .inst-creci {
+  color: var(--color-accent-gold);
+  font-weight: 700;
+  letter-spacing: 0.04em;
 }
 
-.hero-subheadline {
-  font-size: clamp(0.95rem, 1.6vw, 1.125rem);
-  color: rgba(250, 247, 242, 0.92);
-  line-height: 1.65;
-  margin-bottom: 1.75rem;
-  max-width: 700px;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
-}
-
-.hero-editorial-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.65rem 0.85rem;
-}
-
-.hero-editorial-tags span {
-  display: inline-flex;
-  align-items: center;
-  font-size: clamp(0.75rem, 1.4vw, 0.8125rem);
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.88);
-  background: rgba(28, 18, 12, 0.65);
-  padding: 0.45rem 0.9rem;
-  border-radius: var(--radius-sm);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  transition: border-color var(--transition-fast), background var(--transition-fast);
-}
-
-.hero-editorial-tags span:hover {
-  border-color: rgba(226, 121, 55, 0.6);
-  background: rgba(28, 18, 12, 0.85);
+.hero-institutional-bar .inst-sep {
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 0.75rem;
 }
 
 /* ==========================================================================
@@ -2150,7 +2159,7 @@ h1, h2, h3, h4, h5, h6 {
 @media (max-width: 1024px) {
   .hero-section {
     background-image: 
-      linear-gradient(to bottom, rgba(21, 11, 7, 0.94) 0%, rgba(21, 11, 7, 0.88) 60%, rgba(21, 11, 7, 0.75) 100%),
+      linear-gradient(to bottom, rgba(16, 9, 6, 0.78) 0%, rgba(16, 9, 6, 0.52) 55%, rgba(16, 9, 6, 0.70) 100%),
       url('../assets/img/hero-bg.jpg');
     background-position: center;
     padding: 3.5rem 0 3.5rem;
@@ -2229,35 +2238,27 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .hero-section {
-    padding: 2.25rem 0 2.75rem;
+    padding: 2.75rem 0 3rem;
     background-image: 
-      linear-gradient(to bottom, rgba(21, 11, 7, 0.95) 0%, rgba(21, 11, 7, 0.92) 65%, rgba(21, 11, 7, 0.96) 100%),
+      linear-gradient(to bottom, rgba(16, 9, 6, 0.80) 0%, rgba(16, 9, 6, 0.54) 55%, rgba(16, 9, 6, 0.75) 100%),
       url('../assets/img/hero-bg.jpg');
     background-position: center top;
   }
 
-  .hero-visual-card {
-    display: none; /* Hero limpo e foco imediato no acervo e na busca */
-  }
-
   .hero-headline {
-    font-size: clamp(1.8rem, 5.5vw, 2.4rem);
+    font-size: clamp(1.85rem, 5.5vw, 2.45rem);
     line-height: 1.2;
     margin-bottom: 1rem;
   }
 
   .hero-subheadline {
-    font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+    font-size: clamp(0.92rem, 2.5vw, 1.05rem);
     margin-bottom: 1.5rem;
   }
 
-  .hero-badges-strip {
-    gap: 0.5rem;
-  }
-
-  .hero-pill {
-    font-size: 0.78rem;
-    padding: 0.35rem 0.75rem;
+  .hero-institutional-bar {
+    gap: 0.5rem 0.75rem;
+    font-size: 0.8125rem;
   }
 
   /* Busca Integrada no Mobile */
@@ -2496,9 +2497,14 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 1.85rem;
   }
 
-  .hero-pill {
-    width: 100%;
-    justify-content: center;
+  .hero-institutional-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+  }
+
+  .hero-institutional-bar .inst-sep {
+    display: none;
   }
 
   .advanced-grid {
